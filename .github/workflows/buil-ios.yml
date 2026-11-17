@@ -25,11 +25,13 @@ jobs:
       run: npx cap sync ios
 
     - name: Build iOS Archive
+      shell: bash
       run: |
         cd ios/App
         xcodebuild -workspace App.xcworkspace -scheme App -sdk iphoneos -configuration Debug archive -archivePath build/App.xcarchive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_STYLE=Manual
 
     - name: Export IPA (Debug)
+      shell: bash
       run: |
         cd ios/App
         mkdir -p Payload
