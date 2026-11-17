@@ -35,12 +35,15 @@ jobs:
           xcodebuild -project App.xcodeproj -scheme App -sdk iphoneos -configuration Debug archive -archivePath build/App.xcarchive CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
         fi
 
-    - name: Export IPA (Debug)
+    - name: Export Clean IPA (Unsigned)
       shell: bash
       run: |
         cd ios/App
         mkdir -p Payload
         cp -R build/App.xcarchive/Products/Applications/App.app Payload/
+        # Remove assinaturas anteriores para o AltStore assinar limpo
+        rm -rf Payload/App.app/_CodeSignature
+        rm -f Payload/App.app/embedded.mobileprovision
         zip -r App.ipa Payload
 
     - name: Upload IPA Artifact
